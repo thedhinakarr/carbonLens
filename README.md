@@ -3,9 +3,7 @@
 
 **Leapfrogs 2026 Project Report**
 
-> Abhinav Annareddy | M.Sc. Computer Science, BTH  
-> Leapfrogs 2026 Scholar | Grant: 40,000 SEK  
-> April 2026
+
 
 ---
 
