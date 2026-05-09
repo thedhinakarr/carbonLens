@@ -1,0 +1,16 @@
+__pycache__
+*.pyc
+.venv
+venv
+.git
+*.md
+.DS_Store
+.env
+*.egg-info
+# Don't bake trained models into the image
+artifacts/
+*.pt
+*.pth
+*.pkl
+*.joblib
+*.h5

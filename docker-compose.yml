@@ -1,0 +1,109 @@
+# ─────────────────────────────────────────────────
+#  CarbonLens — Docker Compose (Development)
+# ─────────────────────────────────────────────────
+#
+#  Usage:
+#    docker compose up              # start all services
+#    docker compose up cl_fe        # start frontend only
+#    docker compose up cl_api       # start API only
+#    docker compose --profile ml up # include ML training
+#
+
+services:
+  # ── Frontend (Next.js + shadcn UI) ──
+  cl_fe:
+    build:
+      context: ./cl_fe
+      dockerfile: Dockerfile
+    container_name: carbonlens-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=http://cl_api:8000
+    depends_on:
+      cl_api:
+        condition: service_healthy
+    networks:
+      - carbonlens
+    restart: unless-stopped
+
+  # ── Backend API (FastAPI) ──
+  cl_api:
+    build:
+      context: ./cl_api
+      dockerfile: Dockerfile
+    container_name: carbonlens-api
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=development
+      - DATABASE_URL=postgresql+asyncpg://carbonlens:carbonlens@db:5432/carbonlens
+      - CORS_ORIGINS=["http://localhost:3000"]
+      - MODEL_ARTIFACT_DIR=/artifacts
+    volumes:
+      - model_artifacts:/artifacts
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8000/health').raise_for_status()"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - carbonlens
+    restart: unless-stopped
+
+  # ── Database (PostgreSQL) ──
+  db:
+    image: postgres:16-alpine
+    container_name: carbonlens-db
+    environment:
+      - POSTGRES_USER=carbonlens
+      - POSTGRES_PASSWORD=carbonlens
+      - POSTGRES_DB=carbonlens
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U carbonlens"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - carbonlens
+    restart: unless-stopped
+
+  # ── ML Pipeline (training — on-demand) ──
+  cl_ml:
+    build:
+      context: ./cl_ml
+      dockerfile: Dockerfile
+    container_name: carbonlens-ml
+    profiles:
+      - ml
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://carbonlens:carbonlens@db:5432/carbonlens
+    volumes:
+      - model_artifacts:/artifacts
+      - ml_data:/data
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - carbonlens
+
+volumes:
+  pg_data:
+    driver: local
+  model_artifacts:
+    driver: local
+  ml_data:
+    driver: local
+
+networks:
+  carbonlens:
+    driver: bridge

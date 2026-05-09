@@ -1,0 +1,24 @@
+# ── Core ML ──
+torch>=2.5.0
+xgboost>=2.1.0
+scikit-learn>=1.6.0
+numpy>=2.0.0
+pandas>=2.2.0
+
+# ── NLP ──
+transformers>=4.47.0
+tokenizers>=0.21.0
+
+# ── Feature Engineering ──
+ta>=0.11.0  # Technical analysis indicators (RSI, MACD, Bollinger)
+
+# ── Explainability ──
+shap>=0.46.0
+
+# ── Data Acquisition ──
+requests>=2.32.0
+aiohttp>=3.11.0
+
+# ── Dev / Test ──
+pytest>=8.0.0
+matplotlib>=3.10.0

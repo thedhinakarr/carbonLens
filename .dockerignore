@@ -1,0 +1,40 @@
+# ── Git ──
+.git
+.gitignore
+
+# ── Node ──
+**/node_modules
+**/.next
+**/out
+**/dist
+**/.turbo
+
+# ── Python ──
+**/__pycache__
+**/*.pyc
+**/.venv
+**/venv
+**/.eggs
+**/*.egg-info
+
+# ── ML Artifacts (don't bake into images) ──
+**/*.pt
+**/*.pth
+**/*.pkl
+**/*.joblib
+**/*.h5
+**/*.onnx
+**/*.ckpt
+**/wandb
+**/mlruns
+
+# ── IDE / OS ──
+**/.DS_Store
+**/.idea
+**/.vscode
+**/*.swp
+
+# ── Docs ──
+*.md
+*.pdf
+LICENSE
