@@ -1,19 +1,33 @@
-import { Button } from "@workspace/ui/components/button"
+import { AppSidebar } from "@/components/app-sidebar"
+import { DashboardPage } from "@/components/dashboard-page"
+import {
+  SidebarProvider,
+  SidebarInset,
+  SidebarTrigger,
+} from "@workspace/ui/components/sidebar"
+import { TooltipProvider } from "@workspace/ui/components/tooltip"
+import { Separator } from "@workspace/ui/components/separator"
 
 export default function Page() {
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <TooltipProvider>
+      <SidebarProvider>
+        <AppSidebar />
+        <SidebarInset>
+          <header className="flex h-12 items-center gap-2 border-b px-4">
+            <SidebarTrigger />
+            <Separator orientation="vertical" className="h-5" />
+            <div className="flex items-center gap-2 text-sm">
+              <span className="font-medium">Overview</span>
+              <span className="text-muted-foreground">·</span>
+              <span className="text-muted-foreground text-xs">
+                All Sources
+              </span>
+            </div>
+          </header>
+          <DashboardPage />
+        </SidebarInset>
+      </SidebarProvider>
+    </TooltipProvider>
   )
 }
