@@ -20,9 +20,7 @@ export default function Page() {
             <div className="flex items-center gap-2 text-sm">
               <span className="font-medium">Overview</span>
               <span className="text-muted-foreground">·</span>
-              <span className="text-muted-foreground text-xs">
-                All Sources
-              </span>
+              <span className="text-muted-foreground text-xs">All Sources</span>
             </div>
           </header>
           <DashboardPage />

@@ -2,19 +2,18 @@
 
 import { useState } from "react"
 import {
-  IconTrendingUp,
-  IconTrendingDown,
-  IconBuilding,
-  IconBolt,
-  IconClock,
-  IconLeaf,
-  IconArrowUpRight,
-  IconArrowDownRight,
-  IconDots,
-  IconDownload,
-  IconFileText,
-  IconFilter,
-} from "@tabler/icons-react"
+  TrendUp,
+  TrendDown,
+  Lightning,
+  Clock,
+  Leaf,
+  ArrowUpRight,
+  ArrowDownRight,
+  DotsThree,
+  DownloadSimple,
+  FilePdf,
+  Funnel,
+} from "@phosphor-icons/react"
 import {
   BarChart,
   Bar,
@@ -26,14 +25,11 @@ import {
   Cell,
   PieChart,
   Pie,
-  LineChart,
-  Line,
   Area,
   AreaChart,
 } from "recharts"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@workspace/ui/components/card"
-import { Badge } from "@workspace/ui/components/badge"
 import { Button } from "@workspace/ui/components/button"
 import {
   Table,
@@ -56,7 +52,7 @@ const kpiCards = [
     change: "+2.3%",
     trend: "up" as const,
     subtitle: "Last 24h",
-    icon: IconBolt,
+    icon: Lightning,
   },
   {
     title: "Fair Values Computed",
@@ -64,7 +60,7 @@ const kpiCards = [
     change: "+12",
     trend: "up" as const,
     subtitle: "This week",
-    icon: IconLeaf,
+    icon: Leaf,
   },
   {
     title: "Avg. Confidence",
@@ -72,7 +68,7 @@ const kpiCards = [
     change: "+1.8%",
     trend: "up" as const,
     subtitle: "Model accuracy",
-    icon: IconTrendingUp,
+    icon: TrendUp,
   },
   {
     title: "Market Sentiment",
@@ -80,11 +76,10 @@ const kpiCards = [
     change: "+0.34",
     trend: "up" as const,
     subtitle: "NLP score",
-    icon: IconTrendingUp,
+    icon: TrendUp,
   },
 ]
 
-// EU ETS price history (30 days)
 const priceHistory = [
   { date: "Apr 10", actual: 63.2, predicted: 63.8 },
   { date: "Apr 11", actual: 64.1, predicted: 63.5 },
@@ -118,7 +113,6 @@ const priceHistory = [
   { date: "May 09", actual: 67.4, predicted: 67.9 },
 ]
 
-// Sentiment bar chart data (daily scores)
 const sentimentData = [
   { time: "00:00", score: 0.12 },
   { time: "02:00", score: -0.08 },
@@ -134,7 +128,6 @@ const sentimentData = [
   { time: "22:00", score: 0.15 },
 ]
 
-// Credit type distribution
 const creditDistribution = [
   { name: "REDD+", value: 35, fill: "var(--color-chart-1)" },
   { name: "Renewable Energy", value: 28, fill: "var(--color-chart-2)" },
@@ -143,7 +136,6 @@ const creditDistribution = [
   { name: "Other", value: 7, fill: "var(--color-chart-5)" },
 ]
 
-// Fair value estimates table
 const fairValueEstimates = [
   {
     id: "FV-001",
@@ -276,7 +268,6 @@ function SentimentBadge({ sentiment }: { sentiment: string }) {
   )
 }
 
-// Custom tooltip for recharts
 function ChartTooltipContent({
   active,
   payload,
@@ -358,27 +349,20 @@ export function DashboardPage() {
           </h1>
         </div>
         <div className="flex items-center gap-2">
-          {/* Time range tabs */}
           <Tabs value={timeRange} onValueChange={setTimeRange}>
             <TabsList className="h-8">
-              <TabsTrigger value="24h" className="text-xs px-2.5">
-                24h
-              </TabsTrigger>
-              <TabsTrigger value="7d" className="text-xs px-2.5">
-                7d
-              </TabsTrigger>
-              <TabsTrigger value="30d" className="text-xs px-2.5">
-                30d
-              </TabsTrigger>
+              <TabsTrigger value="24h" className="text-xs px-2.5">24h</TabsTrigger>
+              <TabsTrigger value="7d" className="text-xs px-2.5">7d</TabsTrigger>
+              <TabsTrigger value="30d" className="text-xs px-2.5">30d</TabsTrigger>
             </TabsList>
           </Tabs>
           <Separator orientation="vertical" className="h-6" />
           <Button variant="outline" size="sm">
-            <IconDownload className="size-3.5" />
+            <DownloadSimple className="size-3.5" weight="bold" />
             Export Data
           </Button>
           <Button variant="outline" size="sm">
-            <IconFileText className="size-3.5" />
+            <FilePdf className="size-3.5" weight="bold" />
             Create PDF
           </Button>
         </div>
@@ -399,19 +383,18 @@ export function DashboardPage() {
               <div className="mt-1 flex items-center gap-1.5 text-xs">
                 {kpi.trend === "up" ? (
                   <span className="flex items-center gap-0.5 text-chart-1">
-                    <IconArrowUpRight className="size-3.5" />
+                    <ArrowUpRight className="size-3.5" weight="bold" />
                     {kpi.change}
                   </span>
                 ) : (
                   <span className="flex items-center gap-0.5 text-destructive">
-                    <IconArrowDownRight className="size-3.5" />
+                    <ArrowDownRight className="size-3.5" weight="bold" />
                     {kpi.change}
                   </span>
                 )}
                 <span className="text-muted-foreground">{kpi.subtitle}</span>
               </div>
             </CardContent>
-            {/* Subtle gradient accent */}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
           </Card>
         ))}
@@ -419,7 +402,6 @@ export function DashboardPage() {
 
       {/* ── Charts Row ── */}
       <div className="grid gap-4 lg:grid-cols-[1fr_320px]">
-        {/* EU ETS Price Chart */}
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <div>
@@ -429,7 +411,7 @@ export function DashboardPage() {
               </CardDescription>
             </div>
             <Button variant="ghost" size="icon-sm">
-              <IconDots className="size-4" />
+              <DotsThree className="size-4" weight="bold" />
             </Button>
           </CardHeader>
           <CardContent>
@@ -446,11 +428,7 @@ export function DashboardPage() {
                       <stop offset="100%" stopColor="var(--color-chart-4)" stopOpacity={0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid
-                    strokeDasharray="3 3"
-                    stroke="var(--color-border)"
-                    vertical={false}
-                  />
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
                   <XAxis
                     dataKey="date"
                     tick={{ fontSize: 11, fill: "var(--color-muted-foreground)" }}
@@ -491,7 +469,6 @@ export function DashboardPage() {
                 </AreaChart>
               </ResponsiveContainer>
             </div>
-            {/* Legend */}
             <div className="mt-3 flex items-center justify-center gap-6 text-xs text-muted-foreground">
               <span className="flex items-center gap-1.5">
                 <span className="inline-block h-0.5 w-4 rounded bg-chart-1" />
@@ -505,9 +482,7 @@ export function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* Right column: Sentiment + Distribution */}
         <div className="flex flex-col gap-4">
-          {/* Sentiment Bar Chart */}
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-base">Policy Sentiment</CardTitle>
@@ -522,11 +497,7 @@ export function DashboardPage() {
                       {sentimentData.map((entry, index) => (
                         <Cell
                           key={index}
-                          fill={
-                            entry.score >= 0
-                              ? "var(--color-chart-1)"
-                              : "var(--color-destructive)"
-                          }
+                          fill={entry.score >= 0 ? "var(--color-chart-1)" : "var(--color-destructive)"}
                           fillOpacity={0.8}
                         />
                       ))}
@@ -537,7 +508,6 @@ export function DashboardPage() {
             </CardContent>
           </Card>
 
-          {/* Credit Type Distribution */}
           <Card className="flex-1">
             <CardHeader className="pb-2">
               <CardTitle className="text-base">By Credit Type</CardTitle>
@@ -566,9 +536,7 @@ export function DashboardPage() {
                       className="inline-block size-2 rounded-full"
                       style={{ backgroundColor: item.fill }}
                     />
-                    <span className="truncate text-muted-foreground">
-                      {item.name}
-                    </span>
+                    <span className="truncate text-muted-foreground">{item.name}</span>
                   </div>
                 ))}
               </div>
@@ -599,7 +567,7 @@ export function DashboardPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             <Button variant="outline" size="sm">
-              <IconFilter className="size-3.5" />
+              <Funnel className="size-3.5" weight="bold" />
               Filter
             </Button>
           </div>
@@ -614,12 +582,8 @@ export function DashboardPage() {
                   <TableHead className="text-xs">Region</TableHead>
                   <TableHead className="text-xs">Vintage</TableHead>
                   <TableHead className="text-xs">Quality</TableHead>
-                  <TableHead className="text-xs text-right">
-                    Fair Value
-                  </TableHead>
-                  <TableHead className="text-xs text-right">
-                    Confidence
-                  </TableHead>
+                  <TableHead className="text-xs text-right">Fair Value</TableHead>
+                  <TableHead className="text-xs text-right">Confidence</TableHead>
                   <TableHead className="text-xs text-right">Change</TableHead>
                   <TableHead className="text-xs">Sentiment</TableHead>
                 </TableRow>
@@ -629,25 +593,17 @@ export function DashboardPage() {
                   .filter(
                     (e) =>
                       !searchQuery ||
-                      e.projectType
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase()) ||
-                      e.region
-                        .toLowerCase()
-                        .includes(searchQuery.toLowerCase())
+                      e.projectType.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                      e.region.toLowerCase().includes(searchQuery.toLowerCase())
                   )
                   .map((est) => (
                     <TableRow key={est.id} className="group">
                       <TableCell className="text-xs text-muted-foreground whitespace-nowrap">
                         {est.date}
                       </TableCell>
-                      <TableCell className="text-sm font-medium">
-                        {est.projectType}
-                      </TableCell>
+                      <TableCell className="text-sm font-medium">{est.projectType}</TableCell>
                       <TableCell className="text-sm">{est.region}</TableCell>
-                      <TableCell className="text-sm tabular-nums">
-                        {est.vintage}
-                      </TableCell>
+                      <TableCell className="text-sm tabular-nums">{est.vintage}</TableCell>
                       <TableCell>
                         <QualityBadge tier={est.qualityTier} />
                       </TableCell>
@@ -655,24 +611,20 @@ export function DashboardPage() {
                         €{est.fairValue.toFixed(2)}
                       </TableCell>
                       <TableCell className="text-right text-xs text-muted-foreground tabular-nums whitespace-nowrap">
-                        €{est.confidence[0]!.toFixed(2)} – €
-                        {est.confidence[1]!.toFixed(2)}
+                        €{est.confidence[0]!.toFixed(2)} – €{est.confidence[1]!.toFixed(2)}
                       </TableCell>
                       <TableCell className="text-right">
                         <span
                           className={`inline-flex items-center gap-0.5 text-xs font-medium tabular-nums ${
-                            est.change >= 0
-                              ? "text-chart-1"
-                              : "text-destructive"
+                            est.change >= 0 ? "text-chart-1" : "text-destructive"
                           }`}
                         >
                           {est.change >= 0 ? (
-                            <IconArrowUpRight className="size-3" />
+                            <ArrowUpRight className="size-3" weight="bold" />
                           ) : (
-                            <IconArrowDownRight className="size-3" />
+                            <ArrowDownRight className="size-3" weight="bold" />
                           )}
-                          {est.change >= 0 ? "+" : ""}
-                          {est.change.toFixed(1)}%
+                          {est.change >= 0 ? "+" : ""}{est.change.toFixed(1)}%
                         </span>
                       </TableCell>
                       <TableCell>

@@ -1,18 +1,17 @@
 "use client"
 
 import {
-  IconHome,
-  IconSearch,
-  IconChartLine,
-  IconAdjustments,
-  IconNews,
-  IconInfoCircle,
-  IconFileExport,
-  IconSettings,
-  IconLeaf,
-  IconBell,
-  IconHelp,
-} from "@tabler/icons-react"
+  House,
+  MagnifyingGlass,
+  ChartLine,
+  Sliders,
+  Newspaper,
+  Export,
+  Info,
+  Gear,
+  Leaf,
+  Question,
+} from "@phosphor-icons/react"
 
 import {
   Sidebar,
@@ -31,18 +30,18 @@ import {
 import { Avatar, AvatarFallback } from "@workspace/ui/components/avatar"
 
 const mainNav = [
-  { title: "Home", icon: IconHome, active: true },
-  { title: "Fair Value Lookup", icon: IconSearch },
-  { title: "Price Charts", icon: IconChartLine },
-  { title: "Quality Explorer", icon: IconAdjustments },
-  { title: "News & Sentiment", icon: IconNews, badge: "3" },
+  { title: "Home", icon: House, active: true },
+  { title: "Fair Value Lookup", icon: MagnifyingGlass },
+  { title: "Price Charts", icon: ChartLine },
+  { title: "Quality Explorer", icon: Sliders },
+  { title: "News & Sentiment", icon: Newspaper, badge: "3" },
 ]
 
 const secondaryNav = [
-  { title: "Reports", icon: IconFileExport },
-  { title: "Methodology", icon: IconInfoCircle },
-  { title: "Settings", icon: IconSettings },
-  { title: "Help", icon: IconHelp },
+  { title: "Reports", icon: Export },
+  { title: "Methodology", icon: Info },
+  { title: "Settings", icon: Gear },
+  { title: "Help", icon: Question },
 ]
 
 export function AppSidebar() {
@@ -53,7 +52,7 @@ export function AppSidebar() {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" className="group-data-[collapsible=icon]:p-0!">
               <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                <IconLeaf className="size-4" />
+                <Leaf className="size-4" weight="bold" />
               </div>
               <div className="grid flex-1 text-left leading-tight">
                 <span className="truncate text-sm font-semibold">CarbonLens</span>
@@ -79,7 +78,7 @@ export function AppSidebar() {
                     isActive={item.active}
                     tooltip={item.title}
                   >
-                    <item.icon />
+                    <item.icon weight={item.active ? "fill" : "regular"} />
                     <span>{item.title}</span>
                   </SidebarMenuButton>
                   {item.badge && (
